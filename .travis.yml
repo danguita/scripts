@@ -1,0 +1,3 @@
+script:
+  - shellcheck -s bash kickstart/*
+  - shellcheck -s bash maintenance/*
