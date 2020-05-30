@@ -8,5 +8,6 @@
 #
 # $ ./install-dwm.sh
 
+# shellcheck disable=SC1091
 source ./kickstart-void.sh --source-only
 install_dwm
