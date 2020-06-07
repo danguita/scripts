@@ -135,6 +135,7 @@ main() {
     dejavu-fonts-ttf \
     font-hack-ttf \
     noto-fonts-ttf noto-fonts-cjk noto-fonts-emoji \
+    font-symbola \
     liberation-fonts-ttf \
     firefox \
     adwaita-icon-theme \
