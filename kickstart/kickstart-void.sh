@@ -137,7 +137,7 @@ main() {
     noto-fonts-ttf noto-fonts-cjk noto-fonts-emoji \
     font-symbola \
     liberation-fonts-ttf \
-    chromium \
+    firefox \
     adwaita-icon-theme \
     dmenu j4-dmenu-desktop \
     slock \
@@ -192,14 +192,14 @@ main() {
     add_user_to_group vboxusers
   fi
 
-  # Firefox.
-  if confirm "Firefox"; then
-    install_package firefox
+  # Chromium.
+  if confirm "Chromium"; then
+    install_package chromium
   fi
 
   # Set default browser.
-  /usr/bin/xdg-settings set default-web-browser chromium.desktop || \
-    /usr/bin/xdg-settings set default-web-browser firefox.desktop || \
+  /usr/bin/xdg-settings set default-web-browser firefox.desktop || \
+    /usr/bin/xdg-settings set default-web-browser chromium.desktop || \
     true
 
   # Create user directories.
