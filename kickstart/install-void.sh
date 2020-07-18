@@ -40,7 +40,8 @@ device=/dev/sda # It typically is `/dev/nvme0n1` in NVMe drives.
 swap_partition_size=2G
 
 # Kernel version the system will boot on.
-kernel_version=linux5.4
+# https://github.com/void-linux/void-packages/blob/b0d22ca871b19088dfaca87a018a0cdbcd283f2c/srcpkgs/linux/template#L3
+kernel_version=linux5.7
 
 # Time zone in `zoneinfo` format.
 time_zone=Europe/Madrid
