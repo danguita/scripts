@@ -2,6 +2,8 @@
 #
 # Script to kickstart my main production machine (Debian version).
 #
+# Author: David Anguita <david@davidanguita.name>
+#
 # Run me with:
 #
 #   ./kickstart-debian.sh
