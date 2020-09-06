@@ -117,7 +117,7 @@ main() {
     ranger \
     w3m w3m-img \
     linux5.6 linux5.6-headers \
-    linux-firmware-network wifi-firmware \
+    linux-firmware linux-firmware-network wifi-firmware \
     fwupd \
     dunst \
     rxvt-unicode \
