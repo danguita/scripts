@@ -31,7 +31,7 @@ confirm() {
 }
 
 install_package() {
-  sudo pacman --needed -Sy "$@"
+  sudo pacman --needed --noconfirm -Sy "$@"
 }
 
 clean_packages() {
@@ -70,7 +70,7 @@ main() {
 
   # Base packages.
   say "Installing base packages"
-  sudo pacman -Su # Sync and update.
+  sudo pacman --noconfirm -Su # Sync and update.
 
   install_package \
     base \
