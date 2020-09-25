@@ -141,12 +141,6 @@ main() {
     trayer-srg \
     pacman-contrib
 
-  # From AUR:
-  #
-  # xbindkeys
-  # w3m-img
-  # j4-dmenu-desktop
-
   # OpenSSH.
   install_package openssh
 
@@ -169,6 +163,15 @@ main() {
   if confirm "Chromium"; then
     install_package chromium
   fi
+
+  # Install yay AUR client.
+  mkdir -p "$HOME/tmp/yay"
+  git clone https://aur.archlinux.org/yay.git "$HOME/tmp/yay"
+  cd "$HOME/tmp/yay" && makepkg -si
+
+  # Install extra packages from the AUR.
+  yay -S \
+    j4-dmenu-desktop
 
   # Set default browser.
   /usr/bin/xdg-settings set default-web-browser firefox.desktop || \
