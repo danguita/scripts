@@ -6,6 +6,10 @@ Helpful scripts and routine operations.
 
 ### `/kickstart`
 
+**install-arch.sh**
+
+> Installs my main production system (Arch Linux).
+
 **install-dwm.sh**
 
 > Compiles and installs dwm from source.
