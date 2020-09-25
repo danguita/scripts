@@ -75,6 +75,7 @@ main() {
   install_package \
     base \
     base-devel \
+    man \
     xorg-server \
     xorg-xrdb \
     xorg-xsetroot \
