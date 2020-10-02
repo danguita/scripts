@@ -117,7 +117,7 @@ lvcreate -L ${swap_partition_size} -n swap vg
 lvcreate -l 100%FREE -n root vg
 
 # boot partition: FAT32.
-mkfs.vfat ${boot_partition}
+mkfs.vfat -F 32 ${boot_partition}
 
 # root partition: EXT4.
 mkfs.ext4 /dev/mapper/vg-root
