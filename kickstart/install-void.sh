@@ -62,8 +62,8 @@ xbps_repo_url=https://alpha.de.repo.voidlinux.org/current
 kickstart_script_url=http://l.davidanguita.name/kickstart-void.sh
 
 # Do not change these values unless you know what you're doing.
-boot_partition="${device}1" # i.e. `/dev/sda1`
-root_partition="${device}2" # i.e. `/dev/sda2`
+boot_partition="${device}1" # Change it to "${device}p1" in NVMe drives.
+root_partition="${device}2" # Change it to "${device}p2" in NVMe drives.
 
 # -- End of Configuration.
 
