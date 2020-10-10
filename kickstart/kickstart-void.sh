@@ -96,6 +96,7 @@ main() {
     xclip \
     xbindkeys \
     xrandr \
+    xterm \
     xdg-utils xdg-user-dirs xdg-dbus-proxy \
     dbus dbus-x11 \
     elogind \
