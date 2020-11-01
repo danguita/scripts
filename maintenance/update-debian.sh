@@ -21,6 +21,9 @@ sudo apt -y autoremove
 say 'Updating flatpak...'
 sudo flatpak -y update
 
+say 'Removing unused flatpak refs...'
+sudo flatpak uninstall --unused
+
 say 'Updating firmware...'
 fwupdmgr refresh
 fwupdmgr update
