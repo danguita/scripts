@@ -139,7 +139,8 @@ main() {
     keepassxc \
     rclone \
     trayer-srg \
-    pacman-contrib
+    pacman-contrib \
+    fzf
 
   # OpenSSH.
   install_package openssh
