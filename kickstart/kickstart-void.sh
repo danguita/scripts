@@ -153,7 +153,8 @@ main() {
     rsync \
     keepassxc \
     rclone \
-    trayer-srg
+    trayer-srg \
+    fzf
 
   # Access to removable storage devices.
   add_user_to_group storage
