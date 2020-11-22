@@ -6,11 +6,12 @@
 #
 # Run me with:
 #
-#   ./kickstart-arch.sh
+# $ ./kickstart-arch.sh
 
 set -e
 
 dotfiles_path="$HOME/workspace/dotfiles"
+dotfiles_repo_url="https://github.com/danguita/dotfiles.git"
 dwm_download_url="https://dl.suckless.org/dwm"
 dwm_tar_name="dwm-6.2.tar.gz"
 
@@ -44,7 +45,7 @@ add_user_to_group() {
 
 install_dotfiles() {
   mkdir -p "$dotfiles_path"
-  git clone --recurse-submodules https://github.com/danguita/dotfiles.git "$dotfiles_path"
+  git clone --recurse-submodules "$dotfiles_repo_url" "$dotfiles_path"
   cd "$dotfiles_path" && make install
 }
 
