@@ -94,6 +94,7 @@ main() {
     xtools \
     xbacklight \
     xclip \
+    xdotool \
     xbindkeys \
     xrandr \
     xterm \
