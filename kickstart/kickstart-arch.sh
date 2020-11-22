@@ -87,6 +87,7 @@ main() {
     xclip \
     xorg-xrandr \
     xdg-utils xdg-user-dirs xdg-dbus-proxy \
+    xdotool \
     xbindkeys \
     dbus \
     acpi \
