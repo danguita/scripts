@@ -138,7 +138,6 @@ main() {
     linux-firmware linux-firmware-network wifi-firmware \
     fwupd \
     dunst \
-    rxvt-unicode \
     aws-cli \
     vim neovim \
     ctags \
