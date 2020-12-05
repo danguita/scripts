@@ -12,8 +12,14 @@ set -e
 
 dotfiles_path="$HOME/workspace/dotfiles"
 dotfiles_repo_url="https://github.com/danguita/dotfiles.git"
+
 dwm_download_url="https://dl.suckless.org/dwm"
-dwm_tar_name="dwm-6.2.tar.gz"
+dwm_version="6.2"
+dwm_tar_name="dwm-$dwm_version.tar.gz"
+
+st_download_url="https://dl.suckless.org/st"
+st_version="0.8.4"
+st_tar_name="st-$st_version.tar.gz"
 
 say() {
   printf "\n[$(date --iso-8601=seconds)] %s\n" "$1"
@@ -65,6 +71,16 @@ install_dwm() {
   fi
   cp "$dotfiles_path/dwm/config.h" "$HOME/tmp/dwm/"
   sudo make -C "$HOME/tmp/dwm" clean install
+}
+
+install_st() {
+  if [ ! -s "$HOME/tmp/$st_tar_name" ]; then
+    wget $st_download_url/$st_tar_name -O "$HOME/tmp/$st_tar_name"
+    mkdir -p "$HOME/tmp/st/" && \
+      tar xzf "$HOME/tmp/$st_tar_name" -C "$HOME/tmp/st" --strip-components=1
+  fi
+  cp "$dotfiles_path/st/config.h" "$HOME/tmp/st/"
+  sudo make -C "$HOME/tmp/st" clean install
 }
 
 main() {
@@ -320,6 +336,13 @@ EOF
     confirm "dwm found. Update?" && install_dwm
   else
     install_dwm
+  fi
+
+  # Install st (terminal emulator).
+  if [ -x "$(command -v st)" ]; then
+    confirm "st found. Update?" && install_st
+  else
+    install_st
   fi
 
   # Clean packages.
