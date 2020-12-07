@@ -115,6 +115,7 @@ main() {
     xrandr \
     xterm \
     xdg-utils xdg-user-dirs xdg-dbus-proxy \
+    xurls \
     dbus dbus-x11 \
     elogind \
     polkit \
