@@ -12,14 +12,8 @@ set -e
 
 dotfiles_path="$HOME/workspace/dotfiles"
 dotfiles_repo_url="https://github.com/danguita/dotfiles.git"
-
-dwm_download_url="https://dl.suckless.org/dwm"
-dwm_version="6.2"
-dwm_tar_name="dwm-$dwm_version.tar.gz"
-
-st_download_url="https://dl.suckless.org/st"
-st_version="0.8.4"
-st_tar_name="st-$st_version.tar.gz"
+st_repo_url="https://github.com/danguita/st.git"
+dwm_repo_url="https://github.com/danguita/dwm.git"
 
 say() {
   printf "\n[$(date --iso-8601=seconds)] %s\n" "$1"
@@ -64,22 +58,14 @@ update_dotfiles() {
 }
 
 install_dwm() {
-  if [ ! -s "$HOME/tmp/$dwm_tar_name" ]; then
-    wget $dwm_download_url/$dwm_tar_name -O "$HOME/tmp/$dwm_tar_name"
-    mkdir -p "$HOME/tmp/dwm/" && \
-      tar xzf "$HOME/tmp/$dwm_tar_name" -C "$HOME/tmp/dwm" --strip-components=1
-  fi
-  cp "$dotfiles_path/dwm/config.h" "$HOME/tmp/dwm/"
+  rm -rf "$HOME/tmp/dwm"
+  git clone --depth 1 "$dwm_repo_url" "$HOME/tmp/dwm"
   sudo make -C "$HOME/tmp/dwm" clean install
 }
 
 install_st() {
-  if [ ! -s "$HOME/tmp/$st_tar_name" ]; then
-    wget $st_download_url/$st_tar_name -O "$HOME/tmp/$st_tar_name"
-    mkdir -p "$HOME/tmp/st/" && \
-      tar xzf "$HOME/tmp/$st_tar_name" -C "$HOME/tmp/st" --strip-components=1
-  fi
-  cp "$dotfiles_path/st/config.h" "$HOME/tmp/st/"
+  rm -rf "$HOME/tmp/st"
+  git clone --depth 1 "$st_repo_url" "$HOME/tmp/st"
   sudo make -C "$HOME/tmp/st" clean install
 }
 
