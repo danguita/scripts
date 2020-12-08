@@ -117,7 +117,7 @@ main() {
     gnupg \
     GPaste \
     libX11-devel libXft-devel libXinerama-devel \
-    pulseaudio pavucontrol \
+    pulseaudio pulsemixer pavucontrol \
     playerctl \
     ranger \
     w3m w3m-img \
