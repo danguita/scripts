@@ -121,7 +121,7 @@ main() {
     playerctl \
     ranger \
     w3m w3m-img \
-    linux5.6 linux5.6-headers \
+    linux5.8 linux5.8-headers \
     linux-firmware linux-firmware-network wifi-firmware \
     fwupd \
     dunst \
