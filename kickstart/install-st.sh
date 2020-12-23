@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Script to compile dwm from source.
+# Script to install st.
 #
 # - Requires ./kickstart-void.sh to work.
 #
