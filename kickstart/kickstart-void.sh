@@ -17,7 +17,7 @@ dwm_repo_url="https://github.com/danguita/dwm.git"
 slstatus_repo_url="https://github.com/danguita/slstatus.git"
 
 say() {
-  printf "\n[$(date --iso-8601=seconds)] %s\n" "$1"
+  printf "\n[$(date --iso-8601=seconds)] %b\n" "$1"
 }
 
 confirm() {
@@ -74,6 +74,28 @@ install_slstatus() {
   rm -rf "$HOME/tmp/slstatus"
   git clone --depth 1 "$slstatus_repo_url" "$HOME/tmp/slstatus"
   sudo make -C "$HOME/tmp/slstatus" clean install
+}
+
+configure_intel_graphics() {
+  intel_device_conf_file="/etc/X11/xorg.conf.d/20-intel.conf"
+
+  if [ -f "$intel_device_conf_file" ]; then
+    say "Device already configured. Skipping.\n\n$(cat $intel_device_conf_file)"
+  else
+    sudo mkdir -p "$(dirname $intel_device_conf_file)"
+    cat <<- 'EOF' | sudo tee "$intel_device_conf_file"
+Section "Device"
+    Identifier  "Intel Graphics"
+    Driver      "intel"
+    Option      "Backlight" "intel_backlight"
+    Option      "DRI" "3"
+    Option      "TearFree" "true"
+EndSection
+EOF
+# ^
+# SC1040: When using <<-, you can only indent with tabs.
+# See https://github.com/koalaman/shellcheck/wiki/SC1040
+  fi
 }
 
 main() {
@@ -246,21 +268,7 @@ main() {
     install_package linux-firmware-intel xf86-video-intel
 
     say "Configuring device"
-    INTEL_DEVICE_CONF_FILE="/etc/X11/xorg.conf.d/20-intel.conf"
-    sudo mkdir -p "$(dirname $INTEL_DEVICE_CONF_FILE)"
-    if [ ! -f "$INTEL_DEVICE_CONF_FILE" ]; then
-      cat <<- 'EOF' | sudo tee "$INTEL_DEVICE_CONF_FILE"
-Section "Device"
-    Identifier  "Intel Graphics"
-    Driver      "intel"
-    Option      "Backlight"  "intel_backlight"
-    Option      "DRI"    "3"
-EndSection
-EOF
-# ^
-# SC1040: When using <<-, you can only indent with tabs.
-# See https://github.com/koalaman/shellcheck/wiki/SC1040
-    fi
+    configure_intel_graphics
   fi
 
   # AMD microcode.
