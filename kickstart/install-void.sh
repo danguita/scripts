@@ -130,9 +130,13 @@ mount /dev/mapper/vg-root /mnt
 mkdir -p /mnt/boot
 mount ${boot_partition} /mnt/boot
 
-say "Installing base system"
+say "Installing packages"
+# Authentication mechanism, needed during installation
+xbps-install -Sy -R ${xbps_repo_url} pam
+
+# Base system
 xbps-install -Sy -R ${xbps_repo_url} -r /mnt \
-  base-system lvm2 cryptsetup grub-x86_64-efi
+  base-system lvm2 cryptsetup grub-x86_64-efi sudo
 
 say "Preparing for chroot"
 mkdir -p /mnt/{dev,proc,sys}
@@ -177,9 +181,6 @@ chroot_run grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-i
 echo 'GRUB_CMDLINE_LINUX="rd.auto=1"' >> /mnt/etc/default/grub
 echo hostonly=true > /mnt/etc/dracut.conf.d/hostonly.conf
 xbps-reconfigure -r /mnt -f ${kernel_version}
-
-say "Installing sudo"
-xbps-install -S -r /mnt sudo
 
 sed -i.bak -E \
   "/%wheel ALL=\(ALL\) ALL/s/^#[[:space:]]//g" \
