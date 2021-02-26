@@ -139,6 +139,7 @@ main() {
     curl \
     sed \
     shellcheck \
+    bind-utils \
     net-tools \
     git \
     git-gui \
