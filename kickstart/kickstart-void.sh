@@ -167,7 +167,6 @@ main() {
     bash-completion \
     the_silver_searcher \
     dejavu-fonts-ttf \
-    font-hack-ttf \
     noto-fonts-ttf noto-fonts-cjk noto-fonts-emoji \
     font-symbola \
     liberation-fonts-ttf \
