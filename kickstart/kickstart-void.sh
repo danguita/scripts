@@ -141,6 +141,7 @@ main() {
     shellcheck \
     bind-utils \
     net-tools \
+    openntpd \
     git \
     git-gui \
     gist \
