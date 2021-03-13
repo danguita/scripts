@@ -195,6 +195,9 @@ main() {
   # Ability to use KVM for virtual machines, e.g. via QEMU.
   add_user_to_group kvm
 
+  # NTP daemon.
+  enable_service ntpd
+
   # Seat management.
   enable_service dbus
   enable_service polkitd
