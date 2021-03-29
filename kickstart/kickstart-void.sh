@@ -169,7 +169,6 @@ main() {
     the_silver_searcher \
     dejavu-fonts-ttf \
     noto-fonts-ttf noto-fonts-cjk noto-fonts-emoji \
-    font-symbola \
     liberation-fonts-ttf \
     firefox \
     adwaita-icon-theme \
