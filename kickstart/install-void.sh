@@ -18,7 +18,7 @@ set -e
 # Running this script:
 #
 # - Log in as root.
-# - # xbps-install -u xbps
+# - # xbps-install -Sy xbps
 # - # xbps-install -Sy wget
 # - # wget http://l.davidanguita.name/install-void.sh -O install.sh
 # - # chmod +x install.sh
