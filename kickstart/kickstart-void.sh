@@ -149,6 +149,7 @@ main() {
     GPaste \
     libX11-devel libXft-devel libXinerama-devel \
     pulseaudio pulsemixer pamixer pavucontrol \
+    sof-firmware \
     playerctl \
     ranger \
     w3m w3m-img \
