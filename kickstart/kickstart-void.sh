@@ -181,7 +181,7 @@ main() {
     qalculate \
     htop \
     gawk \
-    nodejs-lts-10 \
+    nodejs-lts \
     jq \
     rsync \
     keepassxc \
