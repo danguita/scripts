@@ -169,6 +169,7 @@ main() {
     bash-completion \
     the_silver_searcher \
     dejavu-fonts-ttf \
+    font-iosevka \
     noto-fonts-ttf noto-fonts-cjk noto-fonts-emoji \
     liberation-fonts-ttf \
     firefox \
