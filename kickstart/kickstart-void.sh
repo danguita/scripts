@@ -178,7 +178,6 @@ main() {
     pcmanfm \
     gvfs \
     xarchiver \
-    qalculate \
     htop \
     gawk \
     nodejs-lts \
