@@ -171,6 +171,7 @@ main() {
     dejavu-fonts-ttf \
     noto-fonts-ttf noto-fonts-cjk noto-fonts-emoji \
     liberation-fonts-ttf \
+    font-spleen \
     firefox \
     adwaita-icon-theme \
     dmenu j4-dmenu-desktop \
