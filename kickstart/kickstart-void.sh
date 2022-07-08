@@ -123,7 +123,7 @@ main() {
     xinit \
     xinput \
     xtools \
-    xbacklight \
+    acpilight \
     xclip \
     xdotool \
     xbindkeys \
