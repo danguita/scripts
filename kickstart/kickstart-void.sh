@@ -247,7 +247,7 @@ main() {
   # Intel GPU.
   if confirm "Intel GPU"; then
     say "Installing drivers"
-    install_package linux-firmware-intel xf86-video-intel
+    install_package linux-firmware-intel intel-media-driver
   fi
 
   # AMD microcode.
