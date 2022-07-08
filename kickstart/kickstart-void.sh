@@ -131,8 +131,8 @@ main() {
     playerctl \
     ranger \
     w3m w3m-img \
-    linux5.10 linux5.10-headers \
     linux-firmware linux-firmware-network wifi-firmware \
+    linux5.18 linux5.18-headers \
     fwupd \
     dunst \
     aws-cli \
