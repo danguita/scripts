@@ -76,28 +76,6 @@ install_slstatus() {
   sudo make -C "$HOME/tmp/slstatus" clean install
 }
 
-configure_intel_graphics() {
-  intel_device_conf_file="/etc/X11/xorg.conf.d/20-intel.conf"
-
-  if [ -f "$intel_device_conf_file" ]; then
-    say "Device already configured. Skipping.\n\n$(cat $intel_device_conf_file)"
-  else
-    sudo mkdir -p "$(dirname $intel_device_conf_file)"
-    cat <<- 'EOF' | sudo tee "$intel_device_conf_file"
-Section "Device"
-    Identifier  "Intel Graphics"
-    Driver      "intel"
-    Option      "Backlight" "intel_backlight"
-    Option      "DRI" "3"
-    Option      "TearFree" "true"
-EndSection
-EOF
-# ^
-# SC1040: When using <<-, you can only indent with tabs.
-# See https://github.com/koalaman/shellcheck/wiki/SC1040
-  fi
-}
-
 main() {
   # Create installation directories.
   say "Creating installation directories"
@@ -270,9 +248,6 @@ main() {
   if confirm "Intel GPU"; then
     say "Installing drivers"
     install_package linux-firmware-intel xf86-video-intel
-
-    say "Configuring device"
-    configure_intel_graphics
   fi
 
   # AMD microcode.
