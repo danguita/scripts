@@ -133,6 +133,7 @@ main() {
     w3m w3m-img \
     linux-firmware linux-firmware-network wifi-firmware \
     linux5.18 linux5.18-headers \
+    linux-lts linux-lts-headers \
     fwupd \
     dunst \
     aws-cli \
