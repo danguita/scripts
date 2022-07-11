@@ -113,6 +113,7 @@ main() {
     elogind \
     polkit \
     acpi \
+    tlp \
     wget \
     curl \
     sed \
@@ -181,6 +182,9 @@ main() {
   enable_service dbus
   enable_service polkitd
   enable_service elogind
+
+  # Power management.
+  enable_service tlp
 
   # OpenSSH.
   install_package openssh
