@@ -210,7 +210,7 @@ main() {
 
   # VirtualBox.
   if confirm "VirtualBox"; then
-    install_package virtualbox-ose
+    install_package virtualbox-ose virtualbox-ose-guest
     add_user_to_group vboxusers
   fi
 
