@@ -227,6 +227,7 @@ main() {
   # Create user directories.
   /usr/bin/xdg-user-dirs-update || true
   mkdir -p "$HOME/Pictures/screenshots"
+  mkdir -p "$HOME/.local/bin"
 
   # Flatpak.
   #
