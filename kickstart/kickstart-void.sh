@@ -161,7 +161,7 @@ main() {
     xarchiver \
     htop \
     gawk \
-    nodejs-lts \
+    nodejs \
     jq \
     rsync \
     keepassxc \
