@@ -204,7 +204,7 @@ main() {
 
   # Ruby.
   if confirm "Ruby dev tools"; then
-    install_package ruby ruby-devel
+    install_package ruby ruby-devel ruby-ri
     sudo gem install bundler solargraph
   fi
 
