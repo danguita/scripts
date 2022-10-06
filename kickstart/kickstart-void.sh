@@ -212,6 +212,10 @@ main() {
   if confirm "VirtualBox"; then
     install_package virtualbox-ose virtualbox-ose-guest
     add_user_to_group vboxusers
+    # Install latest VM VirtualBox Extension Pack
+    # latest=$(curl https://download.virtualbox.org/virtualbox/LATEST.TXT)
+    # wget https://download.virtualbox.org/virtualbox/$latest/Oracle_VM_VirtualBox_Extension_Pack-$latest.vbox-extpack
+    # sudo VBoxManage extpack install --replace ./Oracle_VM_VirtualBox_Extension_Pack-$latest.vbox-extpack
   fi
 
   # Chromium.
