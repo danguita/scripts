@@ -184,7 +184,7 @@ echo hostonly=true > /mnt/etc/dracut.conf.d/hostonly.conf
 xbps-reconfigure -r /mnt -f ${kernel_version}
 
 sed -i.bak -E \
-  "/%wheel ALL=\(ALL\) ALL/s/^#[[:space:]]//g" \
+  "/%wheel ALL=\(ALL:ALL\) ALL/s/^#[[:space:]]//g" \
   /mnt/etc/sudoers
 
 say "Creating initial user: ${user}"
