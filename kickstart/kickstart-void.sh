@@ -138,7 +138,7 @@ main() {
     fwupd \
     dunst \
     aws-cli \
-    vim neovim python3-neovim \
+    vim \
     ctags \
     tmux \
     tig \
