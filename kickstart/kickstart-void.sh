@@ -138,7 +138,7 @@ main() {
     fwupd \
     dunst \
     aws-cli \
-    vim \
+    vim vim-x11 \
     ctags \
     tmux \
     tig \
