@@ -12,9 +12,6 @@ set -e
 
 dotfiles_path="$HOME/workspace/dotfiles"
 dotfiles_repo_url="https://github.com/danguita/dotfiles.git"
-st_repo_url="https://github.com/danguita/st.git"
-dwm_repo_url="https://github.com/danguita/dwm.git"
-slstatus_repo_url="https://github.com/danguita/slstatus.git"
 
 say() {
   printf "\n[$(date --iso-8601=seconds)] %b\n" "$1"
@@ -56,24 +53,6 @@ install_dotfiles() {
 
 update_dotfiles() {
   make -C "$dotfiles_path" update
-}
-
-install_dwm() {
-  rm -rf "$HOME/tmp/dwm"
-  git clone --depth 1 "$dwm_repo_url" "$HOME/tmp/dwm"
-  sudo make -C "$HOME/tmp/dwm" clean install
-}
-
-install_st() {
-  rm -rf "$HOME/tmp/st"
-  git clone --depth 1 "$st_repo_url" "$HOME/tmp/st"
-  sudo make -C "$HOME/tmp/st" clean install
-}
-
-install_slstatus() {
-  rm -rf "$HOME/tmp/slstatus"
-  git clone --depth 1 "$slstatus_repo_url" "$HOME/tmp/slstatus"
-  sudo make -C "$HOME/tmp/slstatus" clean install
 }
 
 main() {
@@ -319,27 +298,6 @@ main() {
   else
     say "Installing dotfiles"
     install_dotfiles
-  fi
-
-  # Install dwm (window manager).
-  if [ -x "$(command -v dwm)" ]; then
-    confirm "dwm found. Update?" && install_dwm
-  else
-    install_dwm
-  fi
-
-  # Install st (terminal emulator).
-  if [ -x "$(command -v st)" ]; then
-    confirm "st found. Update?" && install_st
-  else
-    install_st
-  fi
-
-  # Install slstatus (status monitor).
-  if [ -x "$(command -v slstatus)" ]; then
-    confirm "slstatus found. Update?" && install_slstatus
-  else
-    install_slstatus
   fi
 
   # Clean packages.
