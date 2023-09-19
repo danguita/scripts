@@ -20,11 +20,12 @@ set -e
 # - Log in as root (root:voidlinux)
 # - # xbps-install -Sy xbps
 # - # xbps-install -Sy wget
-# - # wget http://l.davidanguita.name/install-void.sh -O install.sh
+# - # wget https://l.davidanguita.name/install-void.sh -O install.sh
 # - # chmod +x install.sh
 # - # ./install.sh
 #
 # Post-installation notes:
+#
 # - You may need to start the DHCP client service to enable networking right
 #   before running the kickstart script:
 #   $ sudo ln -s /etc/sv/dhcpcd /var/service/
@@ -57,7 +58,7 @@ hostname=void
 user=david
 
 # XBPS repo to download the base packages from. Default should be good.
-xbps_repo_url=https://repo-default.voidlinux.org/current
+xbps_repo_url=https://repo-fastly.voidlinux.org/current
 
 # Kickstart script. Can be left blank.
 kickstart_script_url=http://l.davidanguita.name/kickstart-void.sh
@@ -158,6 +159,7 @@ echo "127.0.1.1		${hostname}.localdomain	${hostname}" >> /mnt/etc/hosts
 
 say "Setting up time zone"
 ln -s /usr/share/zoneinfo/${time_zone} /mnt/etc/localtime
+hwclock --systohc
 
 say "Setting up locales"
 echo "LANG=${lang}" > /mnt/etc/locale.conf
@@ -201,4 +203,4 @@ fi
 say "Finishing up"
 umount -R /mnt
 
-if confirm "All done. Reboot?"; then reboot; fi
+if confirm "All done. Power off?"; then poweroff; fi
