@@ -33,6 +33,10 @@ install_package() {
   sudo xbps-install -y "$@"
 }
 
+install_flatpak_package() {
+  sudo flatpak install -y flathub "$@"
+}
+
 clean_packages() {
   sudo xbps-remove -Ooy # Clean cache and remove orphans.
 }
@@ -216,15 +220,25 @@ main() {
   #
   # Installing apps:
   #
-  # $ sudo flatpak install -y flathub com.slack.Slack
+  # % flatpak install -y flathub com.slack.Slack
   #
   # Sandboxing: Allow access to host filesystem:
   #
-  # $ sudo flatpak override com.slack.Slack --filesystem=xdg-download
-  # $ sudo flatpak override org.xonotic.Xonotic --filesystem=~/.xonotic
+  # % flatpak override com.slack.Slack --filesystem=xdg-download
+  # % flatpak override org.xonotic.Xonotic --filesystem=~/.xonotic
   if confirm "Flatpak"; then
-    install_package flatpak xdg-desktop-portal xdg-desktop-portal-gtk
+    install_package flatpak
     sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  fi
+
+  if confirm "Fltapak applications"; then
+    install_flatpak_package com.discordapp.Discord # Discord
+    install_flatpak_package com.getpostman.Postman # Postman
+    install_flatpak_package com.skype.Client       # Skype
+    install_flatpak_package com.slack.Slack        # Slack
+    install_flatpak_package com.spotify.Client     # Spotify
+    install_flatpak_package md.obsidian.Obsidian   # Obsidian
+    install_flatpak_package us.zoom.Zoom           # Zoom
   fi
 
   # Intel microcode.
