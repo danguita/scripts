@@ -10,8 +10,8 @@
 
 set -e
 
-dotfiles_path="$HOME/workspace/dotfiles"
-dotfiles_repo_url="https://github.com/danguita/dotfiles.git"
+readonly DOTFILES_PATH="$HOME/workspace/dotfiles"
+readonly DOTFILES_REPO_URL="https://github.com/danguita/dotfiles.git"
 
 say() {
   printf "\n[$(date --iso-8601=seconds)] %b\n" "$1"
@@ -46,13 +46,13 @@ add_user_to_group() {
 }
 
 install_dotfiles() {
-  mkdir -p "$dotfiles_path"
-  git clone --recurse-submodules "$dotfiles_repo_url" "$dotfiles_path"
-  make -C "$dotfiles_path" install
+  mkdir -p "$DOTFILES_PATH"
+  git clone --recurse-submodules "$DOTFILES_REPO_URL" "$DOTFILES_PATH"
+  make -C "$DOTFILES_PATH" install
 }
 
 update_dotfiles() {
-  make -C "$dotfiles_path" update
+  make -C "$DOTFILES_PATH" update
 }
 
 main() {
@@ -290,7 +290,7 @@ main() {
   fi
 
   # Install dotfiles.
-  if [ -d "$dotfiles_path" ]; then
+  if [ -d "$DOTFILES_PATH" ]; then
     if confirm "Dotfiles found. Update?"; then
       say "Updating dotfiles"
       update_dotfiles
