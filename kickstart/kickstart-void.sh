@@ -83,14 +83,15 @@ main() {
     acpilight \
     xclip \
     xdotool \
-    xbindkeys \
     xrandr \
     xterm \
     xdg-utils xdg-user-dirs xdg-dbus-proxy \
+    xdg-desktop-portal xdg-desktop-portal-gtk \
     xurls \
     dbus dbus-x11 \
     elogind \
     polkit \
+    cwm \
     acpi \
     tlp \
     wget \
@@ -104,7 +105,6 @@ main() {
     git-gui \
     gist \
     gnupg \
-    GPaste \
     libX11-devel libXft-devel libXinerama-devel \
     pulseaudio pulsemixer pamixer pavucontrol \
     sof-firmware \
@@ -113,7 +113,7 @@ main() {
     w3m w3m-img \
     linux-firmware linux-firmware-network wifi-firmware \
     linux-lts linux-lts-headers \
-    linux5.19 linux5.19-headers \
+    linux linux-headers \
     fwupd \
     dunst \
     aws-cli \
@@ -127,13 +127,14 @@ main() {
     mpv \
     bash-completion \
     the_silver_searcher \
+    terminus-font \
     dejavu-fonts-ttf \
-    noto-fonts-ttf noto-fonts-cjk noto-fonts-emoji \
     liberation-fonts-ttf \
-    font-spleen \
+    noto-fonts-ttf noto-fonts-cjk noto-fonts-emoji \
     firefox \
     adwaita-icon-theme \
-    dmenu j4-dmenu-desktop \
+    rofi \
+    polybar \
     slock \
     pcmanfm \
     gvfs \
@@ -145,7 +146,6 @@ main() {
     rsync \
     keepassxc \
     rclone \
-    trayer-srg \
     fzf
 
   # Access to removable storage devices.
