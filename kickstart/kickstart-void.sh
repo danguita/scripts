@@ -159,8 +159,8 @@ main() {
 
   # Seat management.
   enable_service dbus
-  enable_service polkitd
   enable_service elogind
+  enable_service polkitd
 
   # Power management.
   enable_service tlp
