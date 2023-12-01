@@ -220,8 +220,8 @@ main() {
   fi
 
   # Set default browser.
-  /usr/bin/xdg-settings set default-web-browser firefox.desktop || \
-    /usr/bin/xdg-settings set default-web-browser chromium.desktop || \
+  /usr/bin/xdg-settings set default-web-browser chromium.desktop || \
+    /usr/bin/xdg-settings set default-web-browser firefox.desktop || \
     true
 
   # Create user directories.
