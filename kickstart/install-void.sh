@@ -57,7 +57,7 @@ hostname=void
 user=david
 
 # XBPS repo to download the base packages from. Default should be good.
-xbps_repo_url=https://repo-fastly.voidlinux.org/current
+xbps_repo_url=https://repo-default.voidlinux.org/current
 
 # Kickstart script. Can be left blank.
 kickstart_script_url=http://l.davidanguita.name/kickstart-void.sh
