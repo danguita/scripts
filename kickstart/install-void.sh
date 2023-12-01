@@ -55,6 +55,7 @@ hostname=void
 
 # Initial user. Will be created automatically with `sudo` privileges.
 user=david
+user_full_name="David Anguita"
 
 # XBPS repo to download the base packages from. Default should be good.
 xbps_repo_url=https://repo-default.voidlinux.org/current
@@ -188,8 +189,8 @@ sed -i.bak -E \
   "/%wheel ALL=\(ALL:ALL\) ALL/s/^#[[:space:]]//g" \
   /mnt/etc/sudoers
 
-say "Creating initial user: ${user}"
-useradd -R /mnt -m -s /bin/bash -U -G wheel ${user}
+say "Adding initial user: ${user} (${user_full_name})"
+useradd -R /mnt -m -s /bin/bash -U -G wheel -c "${user_full_name}" ${user}
 passwd -R /mnt ${user}
 
 if [ -n "${kickstart_script_url}" ]; then
