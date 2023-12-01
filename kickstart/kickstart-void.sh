@@ -41,7 +41,7 @@ install_flatpak_package() {
 }
 
 clean_packages() {
-  sudo xbps-remove -Ooy # Clean cache and remove orphans.
+  sudo xbps-remove -Ooy # Clean cache and remove orphan packages.
 }
 
 enable_service() {
