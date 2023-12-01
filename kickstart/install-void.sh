@@ -18,8 +18,7 @@ set -e
 # Running this script:
 #
 # - Log in as root (root:voidlinux)
-# - # xbps-install -Sy xbps
-# - # xbps-install -Sy wget
+# - # xbps-install -Sy xbps wget
 # - # wget https://l.davidanguita.name/install-void.sh -O install.sh
 # - # chmod +x install.sh
 # - # ./install.sh
