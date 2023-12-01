@@ -75,6 +75,8 @@ install_slstatus() {
 }
 
 main() {
+  enable_service dhcpcd
+
   # Create installation directories.
   say "Creating installation directories"
   mkdir -p "$HOME/tmp"
