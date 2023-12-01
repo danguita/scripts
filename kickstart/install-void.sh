@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Script to install my main production system (Void Linux).
+# Script to install my main production machine (Void Linux).
 #
 # Author: David Anguita <david@davidanguita.name>
 #
