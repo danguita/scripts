@@ -292,6 +292,7 @@ main() {
   fi
 
   # Printing/Scanning tools.
+  # % hp-plugin to download HP drivers.
   if confirm "Printing/Scanning tools"; then
     install_package \
       cups \
