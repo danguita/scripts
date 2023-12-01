@@ -297,7 +297,7 @@ main() {
     install_package \
       cups \
       hplip \
-      sane \
+      sane xsane \
       simple-scan \
       system-config-printer
 
