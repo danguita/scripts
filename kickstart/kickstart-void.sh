@@ -107,10 +107,11 @@ main() {
     xdg-utils xdg-user-dirs xdg-dbus-proxy \
     xdg-desktop-portal xdg-desktop-portal-gtk \
     xurls \
+    xbindkeys \
+    dmenu j4-dmenu-desktop \
     dbus dbus-x11 \
     elogind \
     polkit \
-    cwm \
     acpi \
     tlp \
     wget \
@@ -120,8 +121,7 @@ main() {
     bind-utils \
     net-tools \
     openntpd \
-    git \
-    git-gui \
+    git git-gui \
     gist \
     gnupg \
     libX11-devel libXft-devel libXinerama-devel \
@@ -131,8 +131,8 @@ main() {
     ranger \
     w3m w3m-img \
     linux-firmware linux-firmware-network wifi-firmware \
-    linux-lts linux-lts-headers \
     linux linux-headers \
+    linux-lts linux-lts-headers \
     fwupd \
     dunst \
     aws-cli \
@@ -146,14 +146,11 @@ main() {
     mpv \
     bash-completion \
     the_silver_searcher \
-    terminus-font \
     dejavu-fonts-ttf \
-    liberation-fonts-ttf \
-    noto-fonts-ttf noto-fonts-cjk noto-fonts-emoji \
+    google-fonts-ttf \
+    terminus-font \
     firefox \
     adwaita-icon-theme \
-    rofi \
-    polybar \
     slock \
     pcmanfm \
     gvfs \
