@@ -13,6 +13,9 @@ set -e
 readonly DOTFILES_PATH="$HOME/workspace/dotfiles"
 readonly DOTFILES_REPO_URL="https://github.com/danguita/dotfiles.git"
 
+readonly DWM_REPO_URL="https://github.com/danguita/dwm.git"
+readonly SLSTATUS_REPO_URL="https://github.com/danguita/slstatus.git"
+
 say() {
   printf "\n[$(date --iso-8601=seconds)] %b\n" "$1"
 }
@@ -57,6 +60,18 @@ install_dotfiles() {
 
 update_dotfiles() {
   make -C "$DOTFILES_PATH" update
+}
+
+install_dwm() {
+  rm -rf "$HOME/tmp/dwm"
+  git clone --depth 1 "$DWM_REPO_URL" "$HOME/tmp/dwm"
+  sudo make -C "$HOME/tmp/dwm" clean install
+}
+
+install_slstatus() {
+  rm -rf "$HOME/tmp/slstatus"
+  git clone --depth 1 "$SLSTATUS_REPO_URL" "$HOME/tmp/slstatus"
+  sudo make -C "$HOME/tmp/slstatus" clean install
 }
 
 main() {
@@ -312,6 +327,20 @@ main() {
   else
     say "Installing dotfiles"
     install_dotfiles
+  fi
+
+  # Install dwm (window manager).
+  if [ -x "$(command -v dwm)" ]; then
+    confirm "dwm found. Update?" && install_dwm
+  else
+    install_dwm
+  fi
+
+  # Install slstatus (status monitor).
+  if [ -x "$(command -v slstatus)" ]; then
+    confirm "slstatus found. Update?" && install_slstatus
+  else
+    install_slstatus
   fi
 
   # Clean packages.
