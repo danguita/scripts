@@ -63,6 +63,7 @@ say() {
   printf "\n[$(date --iso-8601=seconds)] %s\n" "$1"
 }
 
+# shellcheck disable=SC2317
 confirm() {
   while true; do
     read -r -p "$1 (y/[n]): " answer
