@@ -1,4 +1,4 @@
-# @danguita's scripts [![Build Status](https://travis-ci.org/danguita/scripts.svg?branch=master)](https://travis-ci.org/danguita/scripts)
+# @danguita's scripts ![Build Status](https://github.com/danguita/scripts/actions/workflows/main.yml/badge.svg)
 
 Helpful scripts and routine operations.
 
