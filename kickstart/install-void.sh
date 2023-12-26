@@ -18,8 +18,8 @@ set -e
 # Running this script:
 #
 # - Log in as root (root:voidlinux)
-# - # xbps-install -Sy xbps wget
-# - # wget https://l.davidanguita.name/install-void.sh -O install.sh
+# - # xbps-install -Sy xbps curl
+# - # curl -L https://l.davidanguita.name/install-void.sh -o install.sh
 # - # chmod +x install.sh
 # - # ./install.sh
 #
@@ -61,7 +61,7 @@ user_full_name="David Anguita"
 xbps_repo_url=https://repo-default.voidlinux.org/current
 
 # Kickstart script. Can be left blank.
-kickstart_script_url=http://l.davidanguita.name/kickstart-void.sh
+kickstart_script_url=https://l.davidanguita.name/kickstart-void.sh
 
 # Do not change these values unless you know what you're doing.
 boot_partition="${device}1" # Change it to "${device}p1" in NVMe drives.
@@ -196,7 +196,7 @@ passwd -R /mnt ${user}
 
 if [ -n "${kickstart_script_url}" ]; then
   say "Downloading kickstart script to user's home directory"
-  wget ${kickstart_script_url} -O /mnt/home/${user}/kickstart.sh
+  curl -L ${kickstart_script_url} -o /mnt/home/${user}/kickstart.sh
   chroot_run chown ${user}:${user} /home/${user}/kickstart.sh
   chroot_run chmod +x /home/${user}/kickstart.sh
 fi
