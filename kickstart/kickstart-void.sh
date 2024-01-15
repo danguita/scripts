@@ -138,6 +138,7 @@ main() {
     linux-lts linux-lts-headers \
     fwupd \
     dunst \
+    batsignal \
     vim vim-x11 \
     ctags \
     tmux \
