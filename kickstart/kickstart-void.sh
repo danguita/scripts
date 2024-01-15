@@ -138,7 +138,6 @@ main() {
     linux-lts linux-lts-headers \
     fwupd \
     dunst \
-    aws-cli \
     vim vim-x11 \
     ctags \
     tmux \
