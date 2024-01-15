@@ -12,7 +12,6 @@ set -e
 
 readonly DOTFILES_PATH="$HOME/workspace/dotfiles"
 readonly DOTFILES_REPO_URL="https://github.com/danguita/dotfiles.git"
-
 readonly DWM_REPO_URL="https://github.com/danguita/dwm.git"
 readonly SLSTATUS_REPO_URL="https://github.com/danguita/slstatus.git"
 
@@ -66,13 +65,13 @@ update_dotfiles() {
 install_dwm() {
   rm -rf "$HOME/tmp/dwm"
   git clone --depth 1 "$DWM_REPO_URL" "$HOME/tmp/dwm"
-  sudo make -C "$HOME/tmp/dwm" clean install
+  sudo make -C "$HOME/tmp/dwm" deploy
 }
 
 install_slstatus() {
   rm -rf "$HOME/tmp/slstatus"
   git clone --depth 1 "$SLSTATUS_REPO_URL" "$HOME/tmp/slstatus"
-  sudo make -C "$HOME/tmp/slstatus" clean install
+  sudo make -C "$HOME/tmp/slstatus" deploy
 }
 
 main() {
