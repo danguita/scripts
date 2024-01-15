@@ -75,6 +75,7 @@ install_slstatus() {
 }
 
 main() {
+  # DHCP service is not enabled by default.
   enable_service dhcpcd
 
   # Create installation directories.
