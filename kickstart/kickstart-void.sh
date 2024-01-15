@@ -229,6 +229,8 @@ main() {
   /usr/bin/xdg-user-dirs-update || true
   mkdir -p "$HOME/Pictures/screenshots"
   mkdir -p "$HOME/.local/bin"
+  mkdir -p "$HOME/.local/state"
+  mkdir -p "$HOME/.local/share/fonts"
 
   # Flatpak.
   #
