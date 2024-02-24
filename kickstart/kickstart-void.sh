@@ -139,7 +139,7 @@ main() {
     fwupd \
     dunst \
     batsignal \
-    vim vim-x11 \
+    vim vim-x11 neovim \
     ctags \
     tmux \
     tig \
