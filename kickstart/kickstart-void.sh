@@ -124,7 +124,7 @@ main() {
     bind-utils \
     net-tools \
     openntpd \
-    git git-gui \
+    git lazygit \
     gist \
     gnupg \
     libX11-devel libXft-devel libXinerama-devel \
