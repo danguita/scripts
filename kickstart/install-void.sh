@@ -18,7 +18,7 @@ set -e
 # Running this script:
 #
 # - Log in as root (root:voidlinux)
-# - # xbps-install -Sy xbps curl
+# - # xbps-install -Sy xbps openssl curl
 # - # curl -L https://l.davidanguita.name/install-void.sh -o install.sh
 # - # chmod +x install.sh
 # - # ./install.sh
