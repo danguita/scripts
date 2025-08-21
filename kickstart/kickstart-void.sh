@@ -240,10 +240,8 @@ main() {
   if confirm "Fltapak applications"; then
     install_flatpak_package com.discordapp.Discord # Discord
     install_flatpak_package com.getpostman.Postman # Postman
-    install_flatpak_package com.skype.Client       # Skype
     install_flatpak_package com.slack.Slack        # Slack
     install_flatpak_package com.spotify.Client     # Spotify
-    install_flatpak_package md.obsidian.Obsidian   # Obsidian
     install_flatpak_package us.zoom.Zoom           # Zoom
   fi
 
