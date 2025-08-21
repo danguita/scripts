@@ -10,10 +10,10 @@
 
 set -e
 
-dotfiles_path="$HOME/workspace/dotfiles"
-dotfiles_repo_url="https://github.com/danguita/dotfiles.git"
-dwm_download_url="https://dl.suckless.org/dwm"
-dwm_tar_name="dwm-6.2.tar.gz"
+readonly DOTFILES_PATH="$HOME/workspace/dotfiles"
+readonly DOTFILES_REPO_URL="https://github.com/danguita/dotfiles.git"
+readonly DWM_REPO_URL="https://github.com/danguita/dwm.git"
+readonly SLSTATUS_REPO_URL="https://github.com/danguita/slstatus.git"
 
 say() {
   printf "\n[$(date --iso-8601=seconds)] %s\n" "$1"
@@ -36,6 +36,10 @@ install_package() {
   sudo pacman --needed --noconfirm -Sy "$@"
 }
 
+install_flatpak_package() {
+  sudo flatpak install -y flathub "$@"
+}
+
 clean_packages() {
   sudo paccache -r
 }
@@ -45,23 +49,25 @@ add_user_to_group() {
 }
 
 install_dotfiles() {
-  mkdir -p "$dotfiles_path"
-  git clone --recurse-submodules "$dotfiles_repo_url" "$dotfiles_path"
-  cd "$dotfiles_path" && make install
+  mkdir -p "$DOTFILES_PATH"
+  git clone --recurse-submodules "$DOTFILES_REPO_URL" "$DOTFILES_PATH"
+  make -C "$DOTFILES_PATH" install
 }
 
 update_dotfiles() {
-  cd "$dotfiles_path" && make update
+  make -C "$DOTFILES_PATH" update
 }
 
 install_dwm() {
-  if [ ! -s "$HOME/tmp/$dwm_tar_name" ]; then
-    wget $dwm_download_url/$dwm_tar_name -O "$HOME/tmp/$dwm_tar_name"
-    mkdir -p "$HOME/tmp/dwm/" && \
-      tar xzf "$HOME/tmp/$dwm_tar_name" -C "$HOME/tmp/dwm" --strip-components=1
-  fi
-  cp "$dotfiles_path/dwm/config.h" "$HOME/tmp/dwm/"
-  sudo make -C "$HOME/tmp/dwm" clean install
+  rm -rf "$HOME/tmp/dwm"
+  git clone --depth 1 "$DWM_REPO_URL" "$HOME/tmp/dwm"
+  sudo make -C "$HOME/tmp/dwm" deploy
+}
+
+install_slstatus() {
+  rm -rf "$HOME/tmp/slstatus"
+  git clone --depth 1 "$SLSTATUS_REPO_URL" "$HOME/tmp/slstatus"
+  sudo make -C "$HOME/tmp/slstatus" deploy
 }
 
 main() {
@@ -77,6 +83,7 @@ main() {
   install_package \
     base \
     base-devel \
+    pacman-contrib \
     man \
     xorg-server \
     xorg-xrdb \
@@ -87,9 +94,10 @@ main() {
     xorg-xinput \
     xorg-xbacklight \
     xclip \
-    xorg-xrandr \
-    xdg-utils xdg-user-dirs xdg-dbus-proxy \
     xdotool \
+    xorg-xrandr \
+    xterm \
+    xdg-utils xdg-user-dirs xdg-dbus-proxy \
     xbindkeys \
     dbus \
     acpi \
@@ -98,7 +106,7 @@ main() {
     sed \
     shellcheck \
     net-tools \
-    git \
+    git lazygit \
     gist \
     gnupg \
     gpaste \
@@ -107,42 +115,38 @@ main() {
     ranger \
     w3m \
     linux-firmware \
-    ipw2100-fw ipw2200-fw \
     fwupd \
     dunst \
     rxvt-unicode \
     aws-cli \
-    vim \
-    neovim \
+    vim neovim \
     ctags \
     tmux \
     tig \
     scrot \
-    vimiv \
+    feh \
     zathura zathura-pdf-mupdf \
     mpv \
     bash-completion \
     the_silver_searcher \
     ttf-dejavu \
-    ttf-hack \
     noto-fonts noto-fonts-cjk noto-fonts-emoji \
+    terminus-font \
     ttf-liberation \
     firefox \
     adwaita-icon-theme \
-    dmenu \
+    dmenu j4-dmenu-desktop \
     slock \
-    pcmanfm \
+    pcmanfm-gtk3 \
     gvfs \
     xarchiver \
     htop \
     gawk \
-    nodejs-lts-dubnium \
+    nodejs \
     jq \
     rsync \
     keepassxc \
     rclone \
-    trayer-srg \
-    pacman-contrib \
     fzf
 
   # OpenSSH.
@@ -151,56 +155,49 @@ main() {
   # NetworkManager.
   install_package networkmanager networkmanager-openvpn
 
+  # Chromium.
+  install_package chromium
+
   # Docker.
   if confirm "Docker"; then
     install_package docker docker-compose
     add_user_to_group docker
   fi
 
-  # Ruby.
-  if confirm "Ruby dev tools"; then
-    install_package ruby
-    sudo gem install bundler solargraph
-  fi
-
-  # Chromium.
-  if confirm "Chromium"; then
-    install_package chromium
-  fi
-
-  # Install yay AUR client.
-  mkdir -p "$HOME/tmp/yay"
-  git clone https://aur.archlinux.org/yay.git "$HOME/tmp/yay"
-  cd "$HOME/tmp/yay" && makepkg -si
-
-  # Install extra packages from the AUR.
-  yay -S \
-    j4-dmenu-desktop
-
   # Set default browser.
-  /usr/bin/xdg-settings set default-web-browser firefox.desktop || \
-    /usr/bin/xdg-settings set default-web-browser chromium.desktop || \
-    true
+  /usr/bin/xdg-settings set default-web-browser chromium.desktop
+
+  # Prefer dark color scheme in gtk applications.
+  /usr/bin/dconf write /org/gnome/desktop/interface/color-scheme \'prefer-dark\'
 
   # Create user directories.
   /usr/bin/xdg-user-dirs-update || true
   mkdir -p "$HOME/Pictures/screenshots"
+  mkdir -p "$HOME/.local/bin"
+  mkdir -p "$HOME/.local/state"
+  mkdir -p "$HOME/.local/share/fonts"
 
   # Flatpak.
+  #
+  # Installing apps:
+  #
+  # % flatpak install -y flathub com.slack.Slack
+  #
+  # Sandboxing: Allow access to host filesystem:
+  #
+  # % flatpak override com.slack.Slack --filesystem=xdg-download
+  # % flatpak override org.xonotic.Xonotic --filesystem=~/.xonotic
   if confirm "Flatpak"; then
-    install_package flatpak xdg-desktop-portal xdg-desktop-portal-gtk
+    install_package flatpak
     sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  fi
 
-    # Installing apps:
-    #
-    #   sudo flatpak install -y flathub org.libreoffice.LibreOffice
-    #   sudo flatpak install -y flathub com.visualstudio.code
-    #   sudo flatpak install -y flathub com.slack.Slack
-    #
-    # Sandboxing: Allow access to host filesystem:
-    #
-    #   sudo flatpak override com.slack.Slack --filesystem=xdg-download
-    #   sudo flatpak override org.xonotic.Xonotic --filesystem=~/.xonotic
+  if confirm "Fltapak applications"; then
+    install_flatpak_package com.discordapp.Discord # Discord
+    install_flatpak_package com.getpostman.Postman # Postman
+    install_flatpak_package com.slack.Slack        # Slack
+    install_flatpak_package com.spotify.Client     # Spotify
+    install_flatpak_package us.zoom.Zoom           # Zoom
   fi
 
   # Intel microcode.
@@ -212,23 +209,6 @@ main() {
   if confirm "Intel GPU"; then
     say "Installing drivers"
     install_package xf86-video-intel
-
-    say "Configuring device"
-    INTEL_DEVICE_CONF_FILE="/etc/X11/xorg.conf.d/20-intel.conf"
-    sudo mkdir -p "$(dirname $INTEL_DEVICE_CONF_FILE)"
-    if [ ! -f "$INTEL_DEVICE_CONF_FILE" ]; then
-      cat <<- 'EOF' | sudo tee "$INTEL_DEVICE_CONF_FILE"
-Section "Device"
-    Identifier  "Intel Graphics"
-    Driver      "intel"
-    Option      "Backlight"  "intel_backlight"
-    Option      "DRI"    "3"
-EndSection
-EOF
-# ^
-# SC1040: When using <<-, you can only indent with tabs.
-# See https://github.com/koalaman/shellcheck/wiki/SC1040
-    fi
   fi
 
   # AMD GPU (amdgpu).
@@ -268,7 +248,7 @@ EOF
   fi
 
   # Install dotfiles.
-  if [ -d "$dotfiles_path" ]; then
+  if [ -d "$DOTFILES_PATH" ]; then
     if confirm "Dotfiles found. Update?"; then
       say "Updating dotfiles"
       update_dotfiles
@@ -283,6 +263,13 @@ EOF
     confirm "dwm found. Update?" && install_dwm
   else
     install_dwm
+  fi
+
+  # Install slstatus (status monitor).
+  if [ -x "$(command -v slstatus)" ]; then
+    confirm "slstatus found. Update?" && install_slstatus
+  else
+    install_slstatus
   fi
 
   # Clean packages.
