@@ -107,7 +107,7 @@ main() {
     shellcheck \
     net-tools \
     git lazygit \
-    gist \
+    github-cli gist \
     gnupg \
     gpaste \
     pulseaudio pavucontrol \
@@ -122,7 +122,6 @@ main() {
     vim neovim \
     ctags \
     tmux \
-    tig \
     scrot \
     feh \
     zathura zathura-pdf-mupdf \
