@@ -159,6 +159,16 @@ main() {
   # Chromium.
   install_package chromium
 
+  # yay (AUR helper).
+  cd "$HOME/tmp"
+  rm -rf yay-bin
+  git clone https://aur.archlinux.org/yay-bin.git --depth 1
+  cd yay-bin
+  makepkg -si --noconfirm
+  cd -
+  rm -rf yay-bin
+  cd ~
+
   # Docker.
   if confirm "Docker"; then
     install_package docker docker-compose
