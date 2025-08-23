@@ -142,7 +142,7 @@ main() {
     xarchiver \
     htop \
     gawk \
-    nodejs \
+    nodejs npm \
     jq \
     rsync \
     keepassxc \
