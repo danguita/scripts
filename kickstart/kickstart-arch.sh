@@ -109,7 +109,6 @@ main() {
     git lazygit \
     github-cli gist \
     gnupg \
-    gpaste \
     pulseaudio pavucontrol \
     playerctl \
     ranger \
