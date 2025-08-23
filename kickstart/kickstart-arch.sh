@@ -117,7 +117,6 @@ main() {
     linux-firmware \
     fwupd \
     dunst \
-    rxvt-unicode \
     aws-cli \
     vim neovim \
     ctags \
