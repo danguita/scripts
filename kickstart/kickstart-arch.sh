@@ -147,6 +147,7 @@ main() {
     rsync \
     keepassxc \
     rclone \
+    libqalculate \
     fzf
 
   # OpenSSH.
