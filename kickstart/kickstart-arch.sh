@@ -33,7 +33,7 @@ confirm() {
 }
 
 install_package() {
-  sudo pacman --needed --noconfirm -Sy "$@"
+  sudo pacman --needed --noconfirm -S "$@"
 }
 
 install_flatpak_package() {
@@ -42,6 +42,10 @@ install_flatpak_package() {
 
 clean_packages() {
   sudo paccache -r
+}
+
+enable_service() {
+  sudo systemctl enable "$1"
 }
 
 add_user_to_group() {
@@ -149,9 +153,15 @@ main() {
 
   # OpenSSH.
   install_package openssh
+  enable_service sshd.service
 
   # NetworkManager.
   install_package networkmanager networkmanager-openvpn
+  enable_service NetworkManager.service
+
+  # Login manager.
+  install_package lemurs
+  enable_service lemurs.service
 
   # Chromium.
   install_package chromium
@@ -169,14 +179,17 @@ main() {
   # Docker.
   if confirm "Docker"; then
     install_package docker docker-compose
+    enable_service docker.service
     add_user_to_group docker
   fi
 
   # Set default browser.
-  /usr/bin/xdg-settings set default-web-browser chromium.desktop
+  /usr/bin/xdg-settings set default-web-browser chromium.desktop || \
+    /usr/bin/xdg-settings set default-web-browser firefox.desktop || \
+    true
 
   # Prefer dark color scheme in gtk applications.
-  /usr/bin/dconf write /org/gnome/desktop/interface/color-scheme \'prefer-dark\'
+  /usr/bin/dconf write /org/gnome/desktop/interface/color-scheme 'prefer-dark' || true
 
   # Create user directories.
   /usr/bin/xdg-user-dirs-update || true
@@ -200,7 +213,7 @@ main() {
     sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   fi
 
-  if confirm "Fltapak applications"; then
+  if confirm "Flatpak applications"; then
     install_flatpak_package com.discordapp.Discord # Discord
     install_flatpak_package com.getpostman.Postman # Postman
     install_flatpak_package com.slack.Slack        # Slack
@@ -215,13 +228,22 @@ main() {
 
   # Intel GPU.
   if confirm "Intel GPU"; then
-    say "Installing drivers"
     install_package xf86-video-intel
+  fi
+
+  # AMD CPU.
+  if confirm "AMD CPU"; then
+    install_package amd-ucode
   fi
 
   # AMD GPU (amdgpu).
   if confirm "AMD GPU (amdgpu)"; then
-    install_package xf86-video-amdgpu
+    install_package xf86-video-amdgpu mesa libva-mesa-driver lib32-mesa vulkan-radeon lib32-vulkan-radeon
+  fi
+
+  # NVIDIA GPU (nvidia).
+  if confirm "NVIDIA GPU (nvidia)"; then
+    install_package nvidia nvidia-dkms
   fi
 
   # Extra file system: NTFS.
@@ -248,11 +270,14 @@ main() {
 
     # Enable hpaio backend.
     echo hpaio | sudo tee -a /etc/sane.d/dll.conf
+
+    enable_service cups.service
   fi
 
   # Bluetooth support.
   if confirm "Bluetooth support"; then
     install_package blueman bluez
+    enable_service bluetooth.service
   fi
 
   # Install dotfiles.
