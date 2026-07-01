@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Script to install my main production system (Arch Linux).
+# Script to install my main production machine (Arch Linux).
 #
 # Author: David Anguita <david@davidanguita.name>
 #
@@ -18,8 +18,7 @@ set -e
 # Running this script:
 #
 # - Log in as root.
-# - # pacman -Sy wget
-# - # wget http://l.davidanguita.name/install-arch.sh -O install.sh
+# - # curl -L http://l.davidanguita.name/install-arch.sh -o install.sh
 # - # chmod +x install.sh
 # - # ./install.sh
 #
@@ -27,6 +26,7 @@ set -e
 # - You may need to enable the DHCP client service to enable networking right
 #   before running the kickstart script:
 #   $ sudo systemctl enable dhcpcd
+#   $ sudo dhcpcd <interface_name>
 # - Once your Internet connection is ready, run the kickstart script and follow
 #   instructions:
 #   $ ./kickstart.sh
@@ -138,7 +138,7 @@ say "Setting up static networking"
 echo "127.0.1.1		${hostname}.localdomain	${hostname}" >> /mnt/etc/hosts
 
 say "Setting up time zone"
-ln -s /usr/share/zoneinfo/${time_zone} /mnt/etc/localtime
+ln -sf /usr/share/zoneinfo/${time_zone} /mnt/etc/localtime
 hwclock --systohc
 
 say "Setting up locales"
@@ -167,7 +167,7 @@ say "Installing sudo"
 pacstrap /mnt sudo
 
 sed -i.bak -E \
-  "/%wheel ALL=\(ALL\) ALL/s/^#[[:space:]]//g" \
+  "/%wheel ALL=\(ALL:ALL\) ALL/s/^#[[:space:]]//g" \
   /mnt/etc/sudoers
 
 say "Installing dhcp client"
@@ -179,7 +179,7 @@ passwd -R /mnt ${user}
 
 if [ -n "${kickstart_script_url}" ]; then
   say "Downloading kickstart script to user's home directory"
-  wget ${kickstart_script_url} -O /mnt/home/${user}/kickstart.sh
+  curl -L ${kickstart_script_url} -o /mnt/home/${user}/kickstart.sh
   chroot_run chown ${user}:${user} /home/${user}/kickstart.sh
   chroot_run chmod +x /home/${user}/kickstart.sh
 fi
