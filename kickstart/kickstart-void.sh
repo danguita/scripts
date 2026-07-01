@@ -161,6 +161,7 @@ main() {
     htop \
     gawk \
     nodejs \
+    npm \
     jq \
     rsync \
     keepassxc \
@@ -237,7 +238,7 @@ main() {
     sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   fi
 
-  if confirm "Fltapak applications"; then
+  if confirm "Flatpak applications"; then
     install_flatpak_package com.discordapp.Discord # Discord
     install_flatpak_package com.getpostman.Postman # Postman
     install_flatpak_package com.slack.Slack        # Slack
