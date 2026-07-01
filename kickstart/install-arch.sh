@@ -9,6 +9,7 @@
 # # ./install-arch.sh
 
 set -e
+set -o pipefail
 
 # Creating a bootable drive:
 #
@@ -54,8 +55,14 @@ user=david
 kickstart_script_url=http://l.davidanguita.name/kickstart-arch.sh
 
 # Do not change these values unless you know what you're doing.
-boot_partition="${device}1" # i.e. `/dev/sda1`
-root_partition="${device}2" # i.e. `/dev/sda2`
+# Auto-detect partition naming (e.g., /dev/sda1 vs /dev/nvme0n1p1)
+if echo "$device" | grep -qE '[0-9]$'; then
+  boot_partition="${device}p1"
+  root_partition="${device}p2"
+else
+  boot_partition="${device}1"
+  root_partition="${device}2"
+fi
 
 # -- End of Configuration.
 
@@ -79,6 +86,17 @@ confirm() {
 chroot_run() {
   arch-chroot /mnt "$@"
 }
+
+cleanup() {
+  local rc=$?
+  if [ "$rc" -ne 0 ]; then
+    say "Installation failed (exit code $rc). Attempting cleanup..."
+    umount -R /mnt >/dev/null 2>&1 || true
+    swapoff /dev/mapper/vg-swap >/dev/null 2>&1 || true
+    cryptsetup luksClose crypt >/dev/null 2>&1 || true
+  fi
+}
+trap cleanup EXIT
 
 # This is assumming you're using a EFI system. Legacy BIOS systems are not
 # supported in this script yet.
@@ -156,8 +174,12 @@ chroot_run mkinitcpio -P
 say "Installing bootloader (grub)"
 root_partition_uuid=$(blkid -o export ${root_partition} | awk -F'=' '/^UUID/{ print $2 }')
 
-echo "GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${root_partition_uuid}:crypt root=/dev/mapper/vg-root\"" >> /mnt/etc/default/grub
-echo 'GRUB_PRELOAD_MODULES="part_gpt part_msdos lvm"' >> /mnt/etc/default/grub
+if ! grep -q "GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${root_partition_uuid}:crypt root=/dev/mapper/vg-root\"" /mnt/etc/default/grub 2>/dev/null; then
+  echo "GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${root_partition_uuid}:crypt root=/dev/mapper/vg-root\"" >> /mnt/etc/default/grub
+fi
+if ! grep -q 'GRUB_PRELOAD_MODULES="part_gpt part_msdos lvm"' /mnt/etc/default/grub 2>/dev/null; then
+  echo 'GRUB_PRELOAD_MODULES="part_gpt part_msdos lvm"' >> /mnt/etc/default/grub
+fi
 
 mkdir -p /mnt/boot/grub
 chroot_run grub-mkconfig -o /boot/grub/grub.cfg
