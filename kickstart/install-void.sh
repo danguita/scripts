@@ -9,6 +9,7 @@
 # # ./install-void.sh
 
 set -e
+set -o pipefail
 
 # Creating a bootable drive:
 #
@@ -64,8 +65,14 @@ xbps_repo_url=https://repo-default.voidlinux.org/current
 kickstart_script_url=https://l.davidanguita.name/kickstart-void.sh
 
 # Do not change these values unless you know what you're doing.
-boot_partition="${device}1" # Change it to "${device}p1" in NVMe drives.
-root_partition="${device}2" # Change it to "${device}p2" in NVMe drives.
+# Auto-detect partition naming (e.g., /dev/sda1 vs /dev/nvme0n1p1)
+if echo "$device" | grep -qE '[0-9]$'; then
+  boot_partition="${device}p1"
+  root_partition="${device}p2"
+else
+  boot_partition="${device}1"
+  root_partition="${device}2"
+fi
 
 # -- End of Configuration.
 
@@ -89,6 +96,17 @@ confirm() {
 chroot_run() {
   chroot /mnt "$@"
 }
+
+cleanup() {
+  local rc=$?
+  if [ "$rc" -ne 0 ]; then
+    say "Installation failed (exit code $rc). Attempting cleanup..."
+    umount -R /mnt >/dev/null 2>&1 || true
+    swapoff /dev/mapper/vg-swap >/dev/null 2>&1 || true
+    cryptsetup luksClose crypt >/dev/null 2>&1 || true
+  fi
+}
+trap cleanup EXIT
 
 # This is assumming you're using a EFI system. Legacy BIOS systems are not
 # supported in this script yet.
@@ -182,7 +200,9 @@ mkdir -p /mnt/boot/grub
 chroot_run grub-mkconfig -o /boot/grub/grub.cfg
 chroot_run grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=void --recheck
 
-echo 'GRUB_CMDLINE_LINUX="rd.auto=1"' >> /mnt/etc/default/grub
+if ! grep -q 'GRUB_CMDLINE_LINUX="rd.auto=1"' /mnt/etc/default/grub 2>/dev/null; then
+  echo 'GRUB_CMDLINE_LINUX="rd.auto=1"' >> /mnt/etc/default/grub
+fi
 echo hostonly=true > /mnt/etc/dracut.conf.d/hostonly.conf
 xbps-reconfigure -r /mnt -f ${kernel_version}
 
