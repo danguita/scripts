@@ -168,6 +168,11 @@ main() {
     rclone \
     fzf
 
+  # Enable bitmap fonts (disabled by default in Fontconfig).
+  say "Enabling bitmap fonts"
+  sudo ln -sf /usr/share/fontconfig/conf.avail/70-yes-bitmaps.conf /etc/fonts/conf.d/
+  sudo xbps-reconfigure -f fontconfig
+
   # Access to removable storage devices.
   add_user_to_group storage
 
@@ -192,6 +197,10 @@ main() {
   install_package NetworkManager NetworkManager-openvpn
   enable_service NetworkManager
   add_user_to_group network
+
+  # Login manager.
+  install_package greetd
+  enable_service greetd
 
   # Docker.
   if confirm "Docker"; then
