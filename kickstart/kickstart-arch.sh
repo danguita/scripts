@@ -280,6 +280,17 @@ main() {
     enable_service bluetooth.service
   fi
 
+  # QEMU/KVM virtualization.
+  if confirm "QEMU/KVM (virt-manager)"; then
+    install_package qemu-desktop virt-manager libvirt dnsmasq edk2-ovmf swtpm
+    add_user_to_group libvirt
+    add_user_to_group kvm
+    enable_service libvirtd.service
+    sudo systemctl start libvirtd.service
+    sudo virsh net-autostart default || true
+    sudo virsh net-start default || true
+  fi
+
   # Install dotfiles.
   if [ -d "$DOTFILES_PATH" ]; then
     if confirm "Dotfiles found. Update?"; then
